@@ -136,7 +136,7 @@ class Rotate:
                                  borderMode=cv2.BORDER_REFLECT_101)
             if mask is not None:
                 mask = cv2.warpAffine(mask, mat, (height, width),
-                                      flags=cv2.INTER_LINEAR,
+                                      flags=cv2.INTER_NEAREST,
                                       borderMode=cv2.BORDER_REFLECT_101)
 
         return img, mask
@@ -216,12 +216,12 @@ class ShiftScale:
 
             img1 = cv2.copyMakeBorder(img, limit, limit, limit, limit, borderType=cv2.BORDER_REFLECT_101)
             img = (img1[y1:y2, x1:x2, :] if size == size0
-            else cv2.resize(img1[y1:y2, x1:x2, :], (size0, size0), interpolation=cv2.INTER_LINEAR))
+                   else cv2.resize(img1[y1:y2, x1:x2, :], (size0, size0), interpolation=cv2.INTER_LINEAR))
 
             if mask is not None:
                 msk1 = cv2.copyMakeBorder(mask, limit, limit, limit, limit, borderType=cv2.BORDER_REFLECT_101)
                 mask = (msk1[y1:y2, x1:x2, :] if size == size0
-                else cv2.resize(msk1[y1:y2, x1:x2, :], (size0, size0), interpolation=cv2.INTER_LINEAR))
+                        else cv2.resize(msk1[y1:y2, x1:x2, :], (size0, size0), interpolation=cv2.INTER_LINEAR))
 
         return img, mask
 
@@ -495,7 +495,7 @@ class RandomSaturation:
 
 
 class RandomHueSaturationValue:
-    def __init__(self, hue_shift_limit=(-10, 10), sat_shift_limit=(-25, 25), val_shift_limit=(-25, 25), prob=0.5):
+    def __init__(self, hue_shift_limit=(-20, 20), sat_shift_limit=(-35, 35), val_shift_limit=(-35, 35), prob=0.5):
         self.hue_shift_limit = hue_shift_limit
         self.sat_shift_limit = sat_shift_limit
         self.val_shift_limit = val_shift_limit
