@@ -1,21 +1,18 @@
 from dataset import data_path
+from sklearn.model_selection import KFold
+import numpy as np
 
 
-def get_split(fold):
-    folds = {0: [1, 3],
-             1: [2, 5],
-             2: [4, 8],
-             3: [6, 7]}
+def get_split(fold, num_splits=5):
+    train_path = data_path / 'train' / 'angyodysplasia' / 'images'
 
-    train_path = data_path / 'cropped_train'
+    train_file_names = np.array(sorted(list(train_path.glob('*'))))
 
-    train_file_names = []
-    val_file_names = []
+    kf = KFold(n_splits=num_splits, random_state=2018)
 
-    for instrument_id in range(1, 9):
-        if instrument_id in folds[fold]:
-            val_file_names += list((train_path / ('instrument_dataset_' + str(instrument_id)) / 'images').glob('*'))
-        else:
-            train_file_names += list((train_path / ('instrument_dataset_' + str(instrument_id)) / 'images').glob('*'))
+    ids = list(kf.split(train_file_names))
 
-    return train_file_names, val_file_names
+    train_ids, val_ids = ids[fold]
+
+    return train_file_names[train_ids], val_ids[val_ids]
+
