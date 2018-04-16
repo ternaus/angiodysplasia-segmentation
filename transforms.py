@@ -266,6 +266,9 @@ class ShiftScaleRotate:
 
 class CenterCrop:
     def __init__(self, size):
+        if isinstance(size, int):
+            size = (size, size)
+
         self.height = size[0]
         self.width = size[1]
 

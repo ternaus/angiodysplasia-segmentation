@@ -14,5 +14,8 @@ def get_split(fold, num_splits=5):
 
     train_ids, val_ids = ids[fold]
 
-    return train_file_names[train_ids], val_ids[val_ids]
+    return train_file_names[train_ids], train_file_names[val_ids]
 
+
+if __name__ == '__main__':
+    ids = get_split(0)

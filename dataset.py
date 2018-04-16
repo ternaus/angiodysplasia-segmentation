@@ -8,17 +8,25 @@ data_path = Path('data')
 
 
 class AngyodysplasiaDataset(Dataset):
-    def __init__(self, file_names: list, to_augment=False, transform=None, mode='train'):
-        self.file_names = file_names
+    def __init__(self, img_paths: list, to_augment=False, transform=None, mode='train', limit=None):
+        self.img_paths = img_paths
         self.to_augment = to_augment
         self.transform = transform
         self.mode = mode
+        self.limit = limit
 
     def __len__(self):
-        return len(self.file_names)
+        if self.limit is None:
+            return len(self.img_paths)
+        else:
+            return self.limit
 
     def __getitem__(self, idx):
-        img_file_name = self.file_names[idx]
+        if self.limit is None:
+            img_file_name = self.img_paths[idx]
+        else:
+            img_file_name = np.random.choice(self.img_paths)
+
         img = load_image(img_file_name)
         mask = load_mask(img_file_name)
 
@@ -26,7 +34,6 @@ class AngyodysplasiaDataset(Dataset):
 
         if self.mode == 'train':
             return to_float_tensor(img), torch.from_numpy(np.expand_dims(mask, 0)).float()
-
         else:
             return to_float_tensor(img), str(img_file_name)
 

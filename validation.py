@@ -16,8 +16,9 @@ def validation_binary(model: nn.Module, criterion, valid_loader):
         outputs = model(inputs)
         loss = criterion(outputs, targets)
         losses.append(loss.data[0])
-        jaccard += get_jaccard(targets, (outputs > 0).float())
-        dice += get_dice(targets, (outputs > 0).float())
+        outputs = (outputs > 0).float()
+        jaccard += get_jaccard(targets, outputs)
+        dice += get_dice(targets, outputs)
 
     valid_loss = np.mean(losses)  # type: float
 
