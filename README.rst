@@ -105,7 +105,7 @@ For binary segmentation the best results is achieved by TernausNet-16 with IoU=0
     U-Net         73.18     83.06     21
     TernausNet-11 74.94     84.43     51
     TernausNet-16 73.83     83.05     60
-    AlbuNet       75.35     84.98     30
+    AlbuNet34     75.35     84.98     30
     ============= ========= ========= ==================
 
 Pre-trained weights for all model of all segmentation tasks can be found at `google drive`_
@@ -140,7 +140,7 @@ The dataset is organized in the folloing way:
     │   │   ├── instrument_dataset_1
     │   │   │   ├── left_frames
     │   │   │   └── right_frames
-    |   |   ....................... 
+    |   |   .......................
     │   └── train
     │       ├── instrument_dataset_1
     │       │   ├── ground_truth
@@ -152,7 +152,7 @@ The dataset is organized in the folloing way:
     │       │   └── right_frames
     │       .......................
 
-The training dataset contains only 8 videos with 255 frames each. Inside each video all frames are correlated, so, for 4-fold cross validation of our experiments, we split data using this dependance i.e utilize whole video for the validation. In such a case, we try to make every fold to contain more or less equal number of instruments. The test dataset consists of 8x75-frame sequences containing footage sampled immediately after each training sequence and 2 full 300-frame sequences, sampled at the same rate as the training set. Under the terms of the challenge, participants should exclude the corresponding training set when evaluating on one of the 75-frame sequences. 
+The training dataset contains only 8 videos with 255 frames each. Inside each video all frames are correlated, so, for 4-fold cross validation of our experiments, we split data using this dependance i.e utilize whole video for the validation. In such a case, we try to make every fold to contain more or less equal number of instruments. The test dataset consists of 8x75-frame sequences containing footage sampled immediately after each training sequence and 2 full 300-frame sequences, sampled at the same rate as the training set. Under the terms of the challenge, participants should exclude the corresponding training set when evaluating on one of the 75-frame sequences.
 
 1. Preprocessing
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -185,14 +185,14 @@ The main file to generate masks is ``generate_masks.py``.
 Running ``python generate_masks.py --help`` will return set of all possible input parameters.
 
 Example:
-:: 
+::
     python generate_masks.py --output_path predictions/unet16/binary --model_type UNet16 --problem_type binary --model_path data/models/unet16_binary_20 --fold -1 --batch-size 4
 
 4. Evaluation
 ~~~~~~~~~~~~~~~~~~~~~~
-The evaluation is different for a binary and multi-class segmentation: 
+The evaluation is different for a binary and multi-class segmentation:
 
-[a] In the case of binary segmentation it calculates jaccard (dice) per image / per video and then the predictions are avaraged. 
+[a] In the case of binary segmentation it calculates jaccard (dice) per image / per video and then the predictions are avaraged.
 
 [b] In the case of multi-class segmentation it calculates jaccard (dice) for every class independently then avaraged them for each image and then for every video
 ::

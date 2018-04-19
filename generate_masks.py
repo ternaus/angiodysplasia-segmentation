@@ -5,7 +5,7 @@ import argparse
 from prepare_train_val import get_split
 from dataset import AngyodysplasiaDataset
 import cv2
-from models import UNet, UNet11, UNet16, AlbuNet
+from models import UNet, UNet11, UNet16, AlbuNet34
 import torch
 from pathlib import Path
 from tqdm import tqdm
@@ -30,7 +30,7 @@ def get_model(model_path, model_type):
     """
 
     :param model_path:
-    :param model_type: 'UNet', 'UNet11', 'UNet16', 'AlbuNet'
+    :param model_type: 'UNet', 'UNet11', 'UNet16', 'AlbuNet34'
     :return:
     """
 
@@ -40,8 +40,8 @@ def get_model(model_path, model_type):
         model = UNet11(num_classes=num_classes)
     elif model_type == 'UNet16':
         model = UNet16(num_classes=num_classes)
-    elif model_type == 'AlbuNet':
-        model = AlbuNet(num_classes=num_classes)
+    elif model_type == 'AlbuNet34':
+        model = AlbuNet34(num_classes=num_classes)
     elif model_type == 'UNet':
         model = UNet(num_classes=num_classes)
     else:
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     arg = parser.add_argument
     arg('--model_path', type=str, default='data/models/UNet', help='path to model folder')
     arg('--model_type', type=str, default='UNet', help='network architecture',
-        choices=['UNet', 'UNet11', 'UNet16', 'AlbuNet'])
+        choices=['UNet', 'UNet11', 'UNet16', 'AlbuNet34'])
     arg('--batch-size', type=int, default=4)
     arg('--fold', type=int, default=-1, choices=[0, 1, 2, 3, 4, -1], help='-1: all folds')
     arg('--workers', type=int, default=12)

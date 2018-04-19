@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 import torch.backends.cudnn as cudnn
 import torch.backends.cudnn
 
-from models import UNet, UNet11, UNet16, LinkNet34, AlbuNet
+from models import UNet, UNet11, UNet16, LinkNet34, AlbuNet34
 from loss import LossBinary
 from dataset import AngyodysplasiaDataset
 import utils
@@ -38,7 +38,7 @@ def main():
     arg('--n-epochs', type=int, default=100)
     arg('--lr', type=float, default=0.0001)
     arg('--workers', type=int, default=12)
-    arg('--model', type=str, default='UNet', choices=['UNet', 'UNet11', 'LinkNet34', 'UNet16', 'AlbuNet'])
+    arg('--model', type=str, default='UNet', choices=['UNet', 'UNet11', 'LinkNet34', 'UNet16', 'AlbuNet34'])
 
     args = parser.parse_args()
 
@@ -55,7 +55,7 @@ def main():
     elif args.model == 'LinkNet34':
         model = LinkNet34(num_classes=num_classes, pretrained=True)
     elif args.model == 'AlbuNet':
-        model = AlbuNet(num_classes=num_classes, pretrained=True)
+        model = AlbuNet34(num_classes=num_classes, pretrained=True)
     else:
         model = UNet(num_classes=num_classes, input_channels=3)
 

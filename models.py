@@ -287,7 +287,7 @@ class UNet(nn.Module):
         return x_out
 
 
-class AlbuNet(nn.Module):
+class AlbuNet34(nn.Module):
     """
         UNet (https://arxiv.org/abs/1505.04597) with Resnet34(https://arxiv.org/abs/1512.03385) encoder
         Proposed by Alexander Buslaev: https://www.linkedin.com/in/al-buslaev/
