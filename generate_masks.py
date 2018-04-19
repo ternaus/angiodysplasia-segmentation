@@ -90,7 +90,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     arg = parser.add_argument
     arg('--model_path', type=str, default='data/models/UNet', help='path to model folder')
-    arg('--model_type', type=str, default='UNet11', help='network architecture',
+    arg('--model_type', type=str, default='UNet', help='network architecture',
         choices=['UNet', 'UNet11', 'UNet16', 'AlbuNet'])
     arg('--batch-size', type=int, default=4)
     arg('--fold', type=int, default=-1, choices=[0, 1, 2, 3, 4, -1], help='-1: all folds')

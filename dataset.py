@@ -28,13 +28,17 @@ class AngyodysplasiaDataset(Dataset):
             img_file_name = np.random.choice(self.img_paths)
 
         img = load_image(img_file_name)
-        mask = load_mask(img_file_name)
-
-        img, mask = self.transform(img, mask)
 
         if self.mode == 'train':
+            mask = load_mask(img_file_name)
+
+            img, mask = self.transform(img, mask)
+
             return to_float_tensor(img), torch.from_numpy(np.expand_dims(mask, 0)).float()
         else:
+            mask = np.zeros(img.shape[:2])
+            img, mask = self.transform(img, mask)
+
             return to_float_tensor(img), str(img_file_name)
 
 
