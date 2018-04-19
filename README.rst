@@ -99,16 +99,14 @@ For binary segmentation the best results is achieved by TernausNet-16 with IoU=0
 
 .. table:: Segmentation results per task. Intersection over Union, Dice coefficient and inference time, ms.
 
-    ============= ========= ========= ========= ========= ========= ====== ========= ========= =======
-    Task:         Binary segmentation           Parts segmentation         Instrument segmentation
-    ------------- ----------------------------- -------------------------- ---------------------------
-    Model         IOU, %    Dice, %   Time      IOU, %    Dice, %   Time     IOU, %  Dice, %   Time
-    ============= ========= ========= ========= ========= ========= ====== ========= ========= =======
-    U-Net         75.44     84.37     93.00     48.41     60.75     106    15.80     23.59     **122**
-    TernausNet-11 81.14     88.07     142.00    62.23     74.25     157    **34.61** **45.86** 173
-    TernausNet-16 **83.60** **90.01** 184.00    **65.50** **75.97** 202    33.78     44.95     275
-    LinkNet-34    82.36     88.87     **88.00** 34.55     41.26     **97** 22.47     24.71     177
-    ============= ========= ========= ========= ========= ========= ====== ========= ========= =======
+    ============= ========= =========     
+    Model         IOU, %    Dice, %   
+    ============= ========= ========= 
+    U-Net         73.18     83.06     
+    TernausNet-11 74.94     84.43     
+    TernausNet-16 73.83     83.05     
+    AlbuNet       75.35     84.98    
+    ============= ========= ========= 
 
 Pre-trained weights for all model of all segmentation tasks can be found at `google drive`_
 
