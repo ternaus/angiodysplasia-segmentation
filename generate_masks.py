@@ -93,7 +93,7 @@ if __name__ == '__main__':
     arg('--model_type', type=str, default='UNet11', help='network architecture',
         choices=['UNet', 'UNet11', 'UNet16', 'AlbuNet'])
     arg('--batch-size', type=int, default=4)
-    arg('--fold', type=int, default=0, choices=[0, 1, 2, 3, 4, -1], help='-1: all folds')
+    arg('--fold', type=int, default=-1, choices=[0, 1, 2, 3, 4, -1], help='-1: all folds')
     arg('--workers', type=int, default=12)
 
     args = parser.parse_args()
@@ -101,6 +101,9 @@ if __name__ == '__main__':
     if args.fold == -1:
         for fold in [0, 1, 2, 3, 4]:
             _, file_names = get_split(fold)
+
+            print(len(file_names))
+
             model = get_model(str(Path(args.model_path).joinpath('model_{fold}.pt'.format(fold=fold))),
                               model_type=args.model_type)
 
