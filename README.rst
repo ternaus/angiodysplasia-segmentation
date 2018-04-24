@@ -210,5 +210,5 @@ You can start working with our models using the demonstration example: `Demo.ipy
    &microm
 
 .. |y| image:: images/y.gif
-.. |y_hat| image:: images/y_hat.gif
+.. |y_hat| image:: https://hsto.org/webt/xf/j2/a4/xfj2a4obgqhdzneysar5_us5pgk.gif
 .. |i| image:: images/i.gif
