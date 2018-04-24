@@ -4,7 +4,7 @@ MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localiz
 
 Here we present our wining solution and its improvement for `MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localization`_.
 
-In this work, we describe our winning solution for MICCAI 2017 Endoscopic Vision Sub-Challenge: Robotic Instrument Segmentation and demonstrate further improvement over that result. Our approach is originally based on U-Net network architecture that we improved using state-of-the-art semantic segmentation neural networks known as LinkNet and TernausNet. Our results shows superior performance for a binary  as well as for multi-class robotic instrument segmentation. We believe that our methods can lay a good foundation for the tracking and pose estimation in the vicinity of surgical scenes.
+In this work, we describe our winning solution for MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localization its further improvements over the state-of-the-art results using several novel deep neural network architectures. It address the binary segmentation problem, where every pixel in an image is labeled as an angiodysplasia lesions or background. Then, we analyze connected component of each predicted mask. Based on the analysis we developed a classifier that predict angiodysplasia lesions (binary variable) and a detector for their localization (center of a component). In this setting, our approach outperforms other methods in every task subcategory for angiodysplasia detection and localization thereby providing state-of-the-art results for these problems. 
 
 .. contents::
 
@@ -17,10 +17,10 @@ Citation
 
 If you find this work useful for your publications, please consider citing::
 
-    @article{shvets2018automatic,
-    title={Automatic Instrument Segmentation in Robot-Assisted Surgery Using Deep Learning},
-    author={Shvets, Alexey and Rakhlin, Alexander and Kalinin, Alexandr A and Iglovikov, Vladimir},
-    journal={arXiv preprint arXiv:1803.01207},
+    @article{shvets2018angiodysplasia,
+    title={Angiodysplasia Detection and Localization Using Deep Convolutional Neural Networks},
+    author={Shvets, Alexey and Iglovikov, Vladimir and Rakhlin, Alexander and Kalinin, Alexandr A.},
+    journal={arXiv preprint arXiv:arXiv:1804.08024},
     year={2018}
     }
 
@@ -212,10 +212,10 @@ You can easily start working with our models using the demonstration example
 
 ..  _`Demo.ipynb`: https://github.com/ternaus/robot-surgery-segmentation/blob/master/Demo.ipynb
 .. _`Alexander Rakhlin`: https://www.linkedin.com/in/alrakhlin/
-.. _`Alexey Shvets`: https://www.linkedin.com/in/alexey-shvets-b0215263/
+.. _`Alexey Shvets`: https://www.linkedin.com/in/shvetsiya/
 .. _`Vladimir Iglovikov`: https://www.linkedin.com/in/iglovikov/
 .. _`Alexandr A. Kalinin`: https://alxndrkalinin.github.io/
-.. _`MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localization`: https://endovissub2017-roboticinstrumentsegmentation.grand-challenge.org/
+.. _`MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localization`: https://endovissub2017-giana.grand-challenge.org/angiodysplasia-etisdb/
 .. _`da Vinci Xi surgical system`: https://intuitivesurgical.com/products/da-vinci-xi/
 .. _`TernausNet`: https://arxiv.org/abs/1801.05746
 .. _`U-Net`: https://arxiv.org/abs/1505.04597
