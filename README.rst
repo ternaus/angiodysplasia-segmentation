@@ -84,7 +84,7 @@ Following the segmentation step, we perform postprocessing in order to nd the c
 Results
 -------
 
-The quantitative comparison of our models' performance is presented in the Table 1. For the segmentation task the best results is achieved by `AlbuNet34`_ providing IoU = 0.754 and Dice = 0.831. When compared by the inference time, `AlbuNet34`_ is also the fastest model due to the light encoder. In the segmentation task this network takes around 20ms
+The quantitative comparison of our models' performance is presented in the Table 1. For the segmentation task the best results is achieved by `AlbuNet34`_ providing IoU = 0.754 and Dice = 0.850. When compared by the inference time, `AlbuNet34`_ is also the fastest model due to the light encoder. In the segmentation task this network takes around 20ms
 
 .. figure:: images/train_angio.png
     :scale: 60 %
