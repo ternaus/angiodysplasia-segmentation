@@ -51,7 +51,10 @@ Method
 ------
 We evaluate 4 different deep architectures for segmentation: `U-Net`_ (Ronneberger et al., 2015; Iglovikov et al., 2017a), 2 modifications of `TernausNet`_ (Iglovikov and Shvets, 2018), and `AlbuNet34`_, a modifications of `LinkNet`_ (Chaurasia and Culurciello, 2017; Shvets et al., 2018). As an improvement over standard `U-Net`_, we use similar networks with pre-trained encoders. `TernausNet`_ (Iglovikov and Shvets, 2018) is a U-Net-like architecture that uses relatively simple pre-trained VGG11 or VGG16 (Simonyan and Zisserman, 2014) networks as an encoder. VGG11 consists of seven convolutional layers, each followed by a ReLU activation function, and ve max polling operations, each reducing feature map by 2. All convolutional layers have 3 |times| 3 kernels. TernausNet16 has a similar structure and uses VGG16 network as an encoder
 
-.. figure:: images/TernausNet.png
+.. figure:: https://hsto.org/webt/vz/ok/wt/vzokwtntgqe6lb-g2oyhzj0qcyo.png
+    :scale: 72 %
+
+.. figure:: https://hsto.org/webt/_w/lu/m5/_wlum5dndsvzo1yyzed2abudl1u.png
     :scale: 72 %
 
 Training
