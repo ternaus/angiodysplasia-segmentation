@@ -89,7 +89,7 @@ Results
 
 The quantitative comparison of our models' performance is presented in the Table 1. For the segmentation task the best results is achieved by `AlbuNet34`_ providing IoU = 0.754 and Dice = 0.850. When compared by the inference time, `AlbuNet34`_ is also the fastest model due to the light encoder. In the segmentation task this network takes around 20ms
 
-.. figure:: images/train_angio.png
+.. figure:: https://hsto.org/webt/mw/yj/-l/mwyj-l6ddk6xz-ykydduixzhrdk.png
     :scale: 60 %
 
     Prediction of our detector on the validation image. The left picture is original image, the central is ground truth mask, and the right is predicted mask. Green dots correspond to centroid coordinates that define localization of the angiodysplasia.
@@ -191,7 +191,7 @@ You can start working with our models using the demonstration example: `Demo.ipy
 .. _`U-Net`: https://arxiv.org/abs/1505.04597
 .. _`AlbuNet34`: https://arxiv.org/abs/1803.01207
 .. _`LinkNet`: https://arxiv.org/abs/1707.03718
-.. _`google drive`: https://drive.google.com/open?id=13e0C4fAtJemjewYqxPtQHO6Xggk7lsKe
+.. _`google drive`: https://drive.google.com/drive/folders/1V_bLBTzsl_Z8Ln9Iq8gjcFDxodfiHxul
 
 .. |br| raw:: html
 
