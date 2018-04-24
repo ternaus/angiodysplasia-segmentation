@@ -163,7 +163,7 @@ To train all models we used the folloing bash script (batch size was chosen depe
 
 The main file to generate masks is ``generate_masks.py``. Running ``python generate_masks.py --help`` will return set of all possible input parameters. Example::
 
-    python generate_masks.py --output_path predictions/unet16/binary --model_type UNet16 --problem_type binary --model_path data/models/unet16_binary_20 --fold -1 --batch-size 4
+    python generate_masks.py --output_path predictions/UNet16 --model_type UNet16 --model_path data/models/UNet16 --fold -1 --batch-size 4
 
 4. Evaluation.
 
@@ -173,7 +173,7 @@ The evaluation is different for a binary and multi-class segmentation:
 
 [b] In the case of multi-class segmentation it calculates jaccard (dice) for every class independently then avaraged them for each image and then for every video::
 
-    python evaluate.py --target_path predictions/unet16 --problem_type binary --train_path data/cropped_train
+    python evaluate.py --target_path predictions/UNet16 --train_path data/train/angyodysplasia/masks
 
 5. Further Improvements.
 
