@@ -211,4 +211,4 @@ You can start working with our models using the demonstration example: `Demo.ipy
 
 .. |y| image:: images/y.gif
 .. |y_hat| image:: https://hsto.org/webt/xf/j2/a4/xfj2a4obgqhdzneysar5_us5pgk.gif
-.. |i| image:: images/i.gif
+.. |i| image:: https://hsto.org/webt/87/cc/ca/87cccaz4gjp2lgyeip17utljvvi.gif
