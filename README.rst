@@ -8,18 +8,18 @@ Here we present our wining solution and its further development for `MICCAI 2017
 
 Team members
 ------------
-`Alexey Shvets`_, `Alexander Rakhlin`_, `Alexandr A. Kalinin`_, `Vladimir Iglovikov`_
+`Alexey Shvets`_, `Vladimir Iglovikov`_, `Alexander Rakhlin`_, `Alexandr A. Kalinin`_
 
 Citation
 ----------
 
 If you find this work useful for your publications, please consider citing::
 
-    @article {Shvets306159,
-        title = {Angiodysplasia Detection and Localization Using Deep Convolutional Neural Networks},
-        author = {Shvets, Alexey and Iglovikov, Vladimir and Rakhlin, Alexander and Kalinin, Alexandr A.},
-        year = {2018},
-        journal = {bioRxiv}
+    @article{shvets2018angiodysplasia,
+    title={Angiodysplasia Detection and Localization Using Deep Convolutional Neural Networks},
+    author={Shvets, Alexey and Iglovikov, Vladimir and Rakhlin, Alexander and Kalinin, Alexandr A.},
+    journal={arXiv preprint arXiv:arXiv:1804.08024},
+    year={2018}
     }
 
 Overview
@@ -185,7 +185,7 @@ You can start working with our models using the demonstration example: `Demo.ipy
 
 ..  _`Demo.ipynb`: Demo.ipynb
 .. _`Alexander Rakhlin`: https://www.linkedin.com/in/alrakhlin/
-.. _`Alexey Shvets`: https://www.linkedin.com/in/alexey-shvets-b0215263/
+.. _`Alexey Shvets`: https://www.linkedin.com/in/shvetsiya/
 .. _`Vladimir Iglovikov`: https://www.linkedin.com/in/iglovikov/
 .. _`Alexandr A. Kalinin`: https://alxndrkalinin.github.io/
 .. _`MICCAI 2017 Endoscopic Vision SubChallenge Angiodysplasia Detection and Localization`: https://endovissub2017-giana.grand-challenge.org/angiodysplasia-etisdb/
