@@ -65,7 +65,7 @@ We use Jaccard index (Intersection Over Union) as the evaluation metric. It can 
 .. raw:: html
 
     <figure>
-        <img src="images/iou.gif" align="center"/>
+        <img src="https://hsto.org/webt/r2/bt/ck/r2btckzdgnau9-kwsrzvryezclk.gif" align="center"/>
     </figure>
 
 Since an image consists of pixels, the expression can be adapted for discrete objects in the following way:
