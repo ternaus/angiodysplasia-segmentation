@@ -51,10 +51,7 @@ Method
 ------
 We evaluate 4 different deep architectures for segmentation: `U-Net`_ (Ronneberger et al., 2015; Iglovikov et al., 2017a), 2 modifications of `TernausNet`_ (Iglovikov and Shvets, 2018), and `AlbuNet34`_, a modifications of `LinkNet`_ (Chaurasia and Culurciello, 2017; Shvets et al., 2018). As an improvement over standard `U-Net`_, we use similar networks with pre-trained encoders. `TernausNet`_ (Iglovikov and Shvets, 2018) is a U-Net-like architecture that uses relatively simple pre-trained VGG11 or VGG16 (Simonyan and Zisserman, 2014) networks as an encoder. VGG11 consists of seven convolutional layers, each followed by a ReLU activation function, and ve max polling operations, each reducing feature map by 2. All convolutional layers have 3 |times| 3 kernels. TernausNet16 has a similar structure and uses VGG16 network as an encoder
 
-.. figure:: https://habrastorage.org/webt/vz/ok/wt/vzokwtntgqe6lb-g2oyhzj0qcyo.png
-    :scale: 72 %
-    
-.. figure:: https://habrastorage.org/webt/_w/lu/m5/_wlum5dndsvzo1yyzed2abudl1u.png
+.. figure:: images/TernausNet.png
     :scale: 72 %
 
 Training
@@ -152,14 +149,14 @@ As a preprocessing step we cropped black unindormative border from all frames wi
 2. Training
 
 The main file that is used to train all models -  ``train.py``. Running ``python train.py --help`` will return set of all possible input parameters.
-To train all models we used the folloing bash script::
+To train all models we used the folloing bash script (batch size was chosen depending on how many samples fit into the GPU RAM, limit was adjusted accordingly to keep the same number of updates for every network)::
 
     #!/bin/bash
 
     for i in 0 1 2 3
     do
-       python train.py --device-ids 0,1,2,3 --batch-size 16 --fold $i --workers 12 --lr 0.0001 --n-epochs 10 --type binary --jaccard-weight 1
-       python train.py --device-ids 0,1,2,3 --batch-size 16 --fold $i --workers 12 --lr 0.00001 --n-epochs 20 --type binary --jaccard-weight 1
+       python train.py --device-ids 0,1,2,3 --limit 10000 --batch-size 12 --fold $i --workers 12 --lr 0.0001 --n-epochs 10 --jaccard-weight 0.3 --model UNet11
+       python train.py --device-ids 0,1,2,3 --limit 10000 --batch-size 12 --fold $i --workers 12 --lr 0.00001 --n-epochs 15 --jaccard-weight 0.3 --model UNet11
     done
 
 3. Mask generation.
