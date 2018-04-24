@@ -77,24 +77,27 @@ Since image segmentation task can also be considered as a pixel classification p
 .. figure:: images/loss.gif
     :align: center
 
-As an output of a model, we obtain an image, where every pixel value corresponds to a probability of belonging to the area of interest or a class. The size of the output image matches the input image size. For binary segmentation, we use 0.3 as a threshold value (chosen using validation dataset) to binarize pixel probabilities. All pixel values below the specified threshold are set to 0, while all values above the threshold are set to 255 to produce final prediction mask. For multi-class segmentation we use similar procedure, but we assign different integer numbers for each class.
+As an output of a model, we obtain an image, in which each pixel value corresponds to a probability of belonging to the area of interest or a class. The size of the output image matches the input image size. For binary segmentation, we use 0.3 as a threshold value (chosen using validation dataset) to binarize pixel probabilities. All pixel values below the specied threshold are set to 0, while all values above the threshold are set to 255 to produce final prediction mask.
+
+Following the segmentation step, we perform postprocessing in order to nd the coordinates of angiodysplasia lesions in the image. In the postprocessing step we use OpenCV implementation of connected component labeling function `connectedComponentsWithStats`. This function returns the number of connected components, their sizes (areas), and centroid coordinates of the corresponding connected component. In our detector we use another threshold to neglect all clusters with the size smaller than 300 pixels. Therefore, in order to establish the presence of the lesions, the number of found components should be higher than 0, otherwise the image corresponds to a normal condition. Then, for localization of angiodysplasia lesions we return centroid coordinates of all connected components.
 
 Results
 -------
 
-For binary segmentation the best results is achieved by TernausNet-16 with IoU=0.836 and Dice=0.901. These are the best values reported in the literature up to now (`Pakhomov`_, `Garcia`_). Next, we consider multi-class segmentation of different parts of instruments. As before, the best results reveals TernausNet-16 with IoU=0.655 and Dice=0.760. For the multi-class instrument segmentation task the results look less optimistic. In this case the best model is TernausNet-11 with IoU=0.346 and Dice=0.459 for 7 class segmentation. Lower performance can be explained by the relatively small dataset size. There are 7 instrument classes and some of them appear just few times in the training dataset. Nevertheless, in the competition we achieved the best performance in this sub-category too.
+The quantitative comparison of our models' performance is presented in the Table 1. For the segmentation task the best results is achieved by `AlbuNet34`_ providing IoU = 0.754 and Dice = 0.831. When compared by the inference time, `AlbuNet34`_ is also the fastest model due to the light encoder. In the segmentation task this network takes around 20ms
 
 .. raw:: html
 
     <figure>
-        <img src="images/grid-1-41.png" width="60%" height="auto" align="center"/>
-        <figcaption>Comparison between several architectures for binary and multi-class segmentation.</figcaption>
+        <img src="images/train_angio.png" width="60%" height="auto" align="center"/>
+        <figcaption>Prediction of our detector on the validation image. The left picture is original image, the central - ground truth mask, the right - predicted mask. Green dots correspond to centroid coordinates that define localization of the angiodysplasia.</figcaption>
     </figure>
+
 |
 |
 |
 
-.. table:: Segmentation results per task. Intersection over Union, Dice coefficient and inference time, ms.
+.. table:: Table 1. Segmentation results per task. Intersection over Union, Dice coefficient and inference time, ms.
 
     ============= ========= ========= ==================
     Model         IOU, %    Dice, %   Inference time, ms
@@ -105,7 +108,7 @@ For binary segmentation the best results is achieved by TernausNet-16 with IoU=0
     AlbuNet34     75.35     84.98     30
     ============= ========= ========= ==================
 
-Pre-trained weights for all model of all segmentation tasks can be found at `google drive`_
+Pre-trained weights for all model of all segmentation tasks can be found on `google drive`_
 
 Dependencies
 ------------
@@ -117,18 +120,14 @@ Dependencies
 * opencv-python 3.3.0.10
 * tqdm 4.19.4
 
-To install all these dependencies you can run
-::
-    pip install -r requirements.txt
+These dependencies can be installed by running::
 
+    pip install -r requirements.txt
 
 
 How to run
 ----------
-
-The dataset is organized in the folloing way:
-
-::
+The dataset is organized in the folloing way::
 
     ├── data
     │   ├── cropped_train
@@ -152,19 +151,14 @@ The dataset is organized in the folloing way:
 The training dataset contains only 8 videos with 255 frames each. Inside each video all frames are correlated, so, for 4-fold cross validation of our experiments, we split data using this dependance i.e utilize whole video for the validation. In such a case, we try to make every fold to contain more or less equal number of instruments. The test dataset consists of 8x75-frame sequences containing footage sampled immediately after each training sequence and 2 full 300-frame sequences, sampled at the same rate as the training set. Under the terms of the challenge, participants should exclude the corresponding training set when evaluating on one of the 75-frame sequences.
 
 1. Preprocessing
-~~~~~~~~~~~~~~~~~~~~~~
+
 As a preprocessing step we cropped black unindormative border from all frames with a file ``prepare_data.py`` that creates folder ``data/cropped_train.py`` with masks and images of the smaller size that are used for training. Then, to split the dataset for 4-fold cross-validation one can use the file: ``prepare_train_val``.
 
 
 2. Training
-~~~~~~~~~~~~~~~~~~~~~~
-The main file that is used to train all models -  ``train.py``.
 
-Running ``python train.py --help`` will return set of all possible input parameters.
-
-To train all models we used the folloing bash script :
-
-::
+The main file that is used to train all models -  ``train.py``. Running ``python train.py --help`` will return set of all possible input parameters.
+To train all models we used the folloing bash script::
 
     #!/bin/bash
 
@@ -174,36 +168,28 @@ To train all models we used the folloing bash script :
        python train.py --device-ids 0,1,2,3 --batch-size 16 --fold $i --workers 12 --lr 0.00001 --n-epochs 20 --type binary --jaccard-weight 1
     done
 
+3. Mask generation.
 
-3. Mask generation
-~~~~~~~~~~~~~~~~~~~~~~
-The main file to generate masks is ``generate_masks.py``.
+The main file to generate masks is ``generate_masks.py``. Running ``python generate_masks.py --help`` will return set of all possible input parameters. Example::
 
-Running ``python generate_masks.py --help`` will return set of all possible input parameters.
-
-Example:
-::
     python generate_masks.py --output_path predictions/unet16/binary --model_type UNet16 --problem_type binary --model_path data/models/unet16_binary_20 --fold -1 --batch-size 4
 
-4. Evaluation
-~~~~~~~~~~~~~~~~~~~~~~
+4. Evaluation.
+
 The evaluation is different for a binary and multi-class segmentation:
 
 [a] In the case of binary segmentation it calculates jaccard (dice) per image / per video and then the predictions are avaraged.
 
-[b] In the case of multi-class segmentation it calculates jaccard (dice) for every class independently then avaraged them for each image and then for every video
-::
+[b] In the case of multi-class segmentation it calculates jaccard (dice) for every class independently then avaraged them for each image and then for every video::
 
     python evaluate.py --target_path predictions/unet16 --problem_type binary --train_path data/cropped_train
 
-5. Further Improvements
-~~~~~~~~~~~~~~~~~~~~~~
+5. Further Improvements.
 
 Our results can be improved further by few percentages using simple rules such as additional augmentation of train images and train the model for longer time. In addition, the cyclic learning rate or cosine annealing could be also applied. To do it one can use our pre-trained weights as initialization. To improve test prediction TTA technique could be used as well as averaging prediction from all folds.
 
-
-6. Demo Example
-~~~~~~~~~~~~~~~~~~~~~~
+Demo Example
+------------
 You can start working with our models using the demonstration example: `Demo.ipynb`_
 
 ..  _`Demo.ipynb`: Demo.ipynb
