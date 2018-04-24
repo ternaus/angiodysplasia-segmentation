@@ -26,7 +26,7 @@ Overview
 --------
 Angiodysplasias are degenerative lesions of previously healthy blood vessels, in which the bowel wall have microvascular abnormalities. These lesions are the most common source of small bowel bleeding in patients older than 50 years, and cause approximately 8% of all gastrointestinal bleeding episodes. Gold-standard examination for angiodysplasia detection and localization in the small bowel is performed using Wireless Capsule Endoscopy (WCE). Last generation of this pill-like device is able to acquire more than 60 000 images with a resolution of approximately 520*520 pixels. According to the latest state-of-the art, only 69% of angiodysplasias are detected by gastroenterologist experts during the reading of WCE videos, and blood indicator software (provided by WCE provider like Given Imaging), in the presence of angiodysplasias, presents sensitivity and specificity values of only 41% and 67%, respectively.
 
-.. figure:: images/wce.jpg
+.. figure:: https://habrastorage.org/webt/if/5p/tj/if5ptjnbzeswfgqderpcww0sstm.jpeg
 
 Data
 ----
