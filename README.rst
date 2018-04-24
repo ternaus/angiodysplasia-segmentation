@@ -1,10 +1,8 @@
-===========================================
-MICCAI 2017 Robotic Instrument Segmentation
-===========================================
+=================================================================================
+MICCAI 2017 Endoscopic Vision Challenge Angiodysplasia Detection and Localization
+=================================================================================
 
-Here we present our wining solution and its improvement for `MICCAI 2017 Robotic Instrument Segmentation Sub-Challenge`_.
-
-In this work, we describe our winning solution for MICCAI 2017 Endoscopic Vision Sub-Challenge: Robotic Instrument Segmentation and demonstrate further improvement over that result. Our approach is originally based on U-Net network architecture that we improved using state-of-the-art semantic segmentation neural networks known as LinkNet and TernausNet. Our results shows superior performance for a binary  as well as for multi-class robotic instrument segmentation. We believe that our methods can lay a good foundation for the tracking and pose estimation in the vicinity of surgical scenes.
+Here we present our wining solution and its further development for `MICCAI 2017 Endoscopic Vision Challenge Angiodysplasia Detection and Localization`_. It addresses binary segmentation problem, where every pixel in image is labeled as an angiodysplasia lesions or background. Then, we analyze connected component of each predicted mask. Based on the analysis we developed a classifier that predict angiodysplasia lesions (binary variable) and a detector for their localization (center of a component).
 
 .. contents::
 
@@ -17,44 +15,43 @@ Citation
 
 If you find this work useful for your publications, please consider citing::
 
-    @article{shvets2018automatic,
-    title={Automatic Instrument Segmentation in Robot-Assisted Surgery Using Deep Learning},
-    author={Shvets, Alexey and Rakhlin, Alexander and Kalinin, Alexandr A and Iglovikov, Vladimir},
-    journal={arXiv preprint arXiv:1803.01207},
-    year={2018}
+    @article {Shvets306159,
+        title = {Angiodysplasia Detection and Localization Using Deep Convolutional Neural Networks},
+        author = {Shvets, Alexey and Iglovikov, Vladimir and Rakhlin, Alexander and Kalinin, Alexandr A.},
+        year = {2018},
+        journal = {bioRxiv}
     }
 
 Overview
 --------
-Semantic segmentation of robotic instruments is an important problem for the robot-assisted surgery. One of the main challenges is to correctly detect an instrument's position for the tracking and pose estimation in the vicinity of surgical scenes. Accurate pixel-wise instrument segmentation is needed to address this challenge. Our approach demonstrates an improvement over the state-of-the-art results using several novel deep neural network architectures. It addressed the binary segmentation problem, where every pixel in an image is labeled as an instrument or background from the surgery video feed. In addition, we solve a multi-class segmentation problem, in which we distinguish between different instruments or different parts of an instrument from the background. In this setting, our approach outperforms other methods in every task subcategory for automatic instrument segmentation thereby providing state-of-the-art results for these problems.
+Angiodysplasias are degenerative lesions of previously healthy blood vessels, in which the bowel wall have microvascular abnormalities. These lesions are the most common source of small bowel bleeding in patients older than 50 years, and cause approximately 8% of all gastrointestinal bleeding episodes. Gold-standard examination for angiodysplasia detection and localization in the small bowel is performed using Wireless Capsule Endoscopy (WCE). Last generation of this pill-like device is able to acquire more than 60 000 images with a resolution of approximately 520*520 pixels. According to the latest state-of-the art, only 69% of angiodysplasias are detected by gastroenterologist experts during the reading of WCE videos, and blood indicator software (provided by WCE provider like Given Imaging), in the presence of angiodysplasias, presents sensitivity and specificity values of only 41% and 67%, respectively.
+
+.. figure:: images/wce.jpg
 
 Data
 ----
-The training dataset consists of 8 |times| 225-frame sequences of high resolution stereo camera images acquired from a `da Vinci Xi surgical system`_ during several different porcine procedures. Training sequences are provided with 2 Hz frame rate to avoid redundancy. Every video sequence consists of two stereo channels taken from left and right cameras and has a 1920 |times| 1080 pixel resolution in RGB format. The articulated parts of the robotic surgical instruments, such as a rigid shaft, an articulated wrist and claspers have been hand labelled in each frame. Furthermore, there are instrument type labels that categorize instruments in following categories: left/right prograsp forceps, monopolar curved scissors, large needle driver, and a miscellaneous category for any other surgical instruments.
+The dataset consists of 1200 color images obtained with WCE. The images are in 24-bit PNG format, with 576 |times| 576 pixel resolution. The dataset is split into two equal parts, 600 images for training and 600 for evaluation. Each subset is composed of 300 images with apparent AD and 300 without any pathology. The training subset is annotated by human expert and contains 300 binary masks in JPEG format of the same 576 |times| 576 pixel resolution. White pixels in the masks correspond to lesion localization.
 
-.. class:: center
+.. figure:: images/tbl.png
+    :scale: 30 %
 
-    |gif1| |gif2|
-    |br|
-    |gif3| |gif4|
-    |br|
-    Original sequence (top left). Binary segmentation, 2-class (top right). Parts, 3-class (bottom left). Instruments, 7-class (bottom right)
+    First row corresponds to images without pathology, the second row to images with several AD lesions in every image, and the last row contains masks that correspond to the pathology images from the second row.
+
+|
+|
+|
+
+.. figure:: images/hist.png
+    :scale: 45 %
+
+    Most images contain 1 lesion. Distribution of AD lesion areas reaches maximum of 12,000 pixels and has median 1,648 pixels.
+
 
 Method
 ------
-We evaluate 4 different deep architectures for segmentation: `U-Net`_, 2 modifications of `TernausNet`_, and a modification of `LinkNet`_. The output of the model is a pixel-by-pixel mask that shows the class of each pixel. Our winning submission to the MICCAI 2017 Endoscopic Vision Sub-Challenge uses slightly modified version of the original U-Net model.
-
-As an improvement over U-Net, we use similar networks with pre-trained encoders. TernausNet is a U-Net-like architecture that uses relatively simple pre-trained VGG11 or VGG16 networks as an encoder:
+We evaluate 4 different deep architectures for segmentation: `U-Net`_ (Ronneberger et al., 2015; Iglovikov et al., 2017a), 2 modifications of `TernausNet`_ (Iglovikov and Shvets, 2018), and `AlbuNet34`_, a modifications of `LinkNet`_ (Chaurasia and Culurciello, 2017; Shvets et al., 2018). As an improvement over standard `U-Net`_, we use similar networks with pre-trained encoders. `TernausNet`_ (Iglovikov and Shvets, 2018) is a U-Net-like architecture that uses relatively simple pre-trained VGG11 or VGG16 (Simonyan and Zisserman, 2014) networks as an encoder. VGG11 consists of seven convolutional layers, each followed by a ReLU activation function, and ve max polling operations, each reducing feature map by 2. All convolutional layers have 3 |times| 3 kernels. TernausNet16 has a similar structure and uses VGG16 network as an encoder
 
 .. figure:: images/TernausNet.png
-    :scale: 65 %
-
-|br|
-|br|
-
-LinkNet model uses an encoder based on a ResNet-type architecture. In this work, we use pre-trained ResNet34. The decoder of the network consists of several decoder blocks that are connected with the corresponding encoder block. Each decoder block includes 1 |times| 1 convolution operation that reduces the number of filters by 4, followed by batch normalization and transposed convolution to upsample the feature map:
-
-.. figure:: images/LinkNet34.png
     :scale: 72 %
 
 Training
@@ -207,21 +204,18 @@ Our results can be improved further by few percentages using simple rules such a
 
 6. Demo Example
 ~~~~~~~~~~~~~~~~~~~~~~
-You can easily start working with our models using the demonstration example
-  `Demo.ipynb`_
+You can start working with our models using the demonstration example: `Demo.ipynb`_
 
-..  _`Demo.ipynb`: https://github.com/ternaus/robot-surgery-segmentation/blob/master/Demo.ipynb
+..  _`Demo.ipynb`: Demo.ipynb
 .. _`Alexander Rakhlin`: https://www.linkedin.com/in/alrakhlin/
 .. _`Alexey Shvets`: https://www.linkedin.com/in/alexey-shvets-b0215263/
 .. _`Vladimir Iglovikov`: https://www.linkedin.com/in/iglovikov/
 .. _`Alexandr A. Kalinin`: https://alxndrkalinin.github.io/
-.. _`MICCAI 2017 Robotic Instrument Segmentation Sub-Challenge`: https://endovissub2017-roboticinstrumentsegmentation.grand-challenge.org/
-.. _`da Vinci Xi surgical system`: https://intuitivesurgical.com/products/da-vinci-xi/
+.. _`MICCAI 2017 Endoscopic Vision SubChallenge Angiodysplasia Detection and Localization`: https://endovissub2017-giana.grand-challenge.org/angiodysplasia-etisdb/
 .. _`TernausNet`: https://arxiv.org/abs/1801.05746
 .. _`U-Net`: https://arxiv.org/abs/1505.04597
+.. _`AlbuNet34`: https://arxiv.org/abs/1803.01207
 .. _`LinkNet`: https://arxiv.org/abs/1707.03718
-.. _`Garcia`: https://arxiv.org/abs/1706.08126
-.. _`Pakhomov`: https://arxiv.org/abs/1703.08580
 .. _`google drive`: https://drive.google.com/open?id=13e0C4fAtJemjewYqxPtQHO6Xggk7lsKe
 
 .. |br| raw:: html
@@ -240,10 +234,6 @@ You can easily start working with our models using the demonstration example
 
    &microm
 
-.. |gif1| image:: images/gifs/dataset6/original.gif
-.. |gif2| image:: images/gifs/dataset6/binary.gif
-.. |gif3| image:: images/gifs/dataset6/parts.gif
-.. |gif4| image:: images/gifs/dataset6/types.gif
 .. |y| image:: images/y.gif
 .. |y_hat| image:: images/y_hat.gif
 .. |i| image:: images/i.gif
