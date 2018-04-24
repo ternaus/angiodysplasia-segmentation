@@ -1,10 +1,8 @@
-===========================================
-MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localization
-===========================================
+=================================================================================
+MICCAI 2017 Endoscopic Vision Challenge Angiodysplasia Detection and Localization
+=================================================================================
 
-Here we present our wining solution and its improvement for `MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localization`_.
-
-In this work, we describe our winning solution for MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localization its further improvements over the state-of-the-art results using several novel deep neural network architectures. It address the binary segmentation problem, where every pixel in an image is labeled as an angiodysplasia lesions or background. Then, we analyze connected component of each predicted mask. Based on the analysis we developed a classifier that predict angiodysplasia lesions (binary variable) and a detector for their localization (center of a component). In this setting, our approach outperforms other methods in every task subcategory for angiodysplasia detection and localization thereby providing state-of-the-art results for these problems. 
+Here we present our wining solution and its further development for `MICCAI 2017 Endoscopic Vision Challenge Angiodysplasia Detection and Localization`_. It addresses binary segmentation problem, where every pixel in image is labeled as an angiodysplasia lesions or background. Then, we analyze connected component of each predicted mask. Based on the analysis we developed a classifier that predict angiodysplasia lesions (binary variable) and a detector for their localization (center of a component).
 
 .. contents::
 
@@ -26,37 +24,34 @@ If you find this work useful for your publications, please consider citing::
 
 Overview
 --------
-Angiodysplasia (AD) is the most common vascular lesion of the gastrointestinal (GI) tract in the general population. This condition may be asymptomatic, or it may cause gastrointestinal bleeding or and anemia. Small bowel angiodysplasia may account for 30-40\% of cases of GI bleeding of obscure origin (OGIB). In a retrospective colonoscopic analyses study, it was shown that 12.1$\%$ of 642 persons without symptoms of irritable bowel syndrome (IBS), and 11.9\% of those with IBS had colonic angiodysplasia. In patients older than 50 years, small bowel AD is the most likely reason of OGIB. OGIB (overt and occult) was the most common indication (66.0\%) and AD was the most common cause (50.0\%) of bleeding in those patients. In another study, small bowel AD lesions were the most common cause (35\%) of severe life‐threatening overt OGIB. Lesions are often multiple, and frequently involve the cecum or ascending colon, although they can occur at other places.
+Angiodysplasias are degenerative lesions of previously healthy blood vessels, in which the bowel wall have microvascular abnormalities. These lesions are the most common source of small bowel bleeding in patients older than 50 years, and cause approximately 8% of all gastrointestinal bleeding episodes. Gold-standard examination for angiodysplasia detection and localization in the small bowel is performed using Wireless Capsule Endoscopy (WCE). Last generation of this pill-like device is able to acquire more than 60 000 images with a resolution of approximately 520*520 pixels. According to the latest state-of-the art, only 69% of angiodysplasias are detected by gastroenterologist experts during the reading of WCE videos, and blood indicator software (provided by WCE provider like Given Imaging), in the presence of angiodysplasias, presents sensitivity and specificity values of only 41% and 67%, respectively.
+
+.. figure:: images/wce.jpg
 
 Data
 ----
-The dataset consists of 1200 color images obtained with wireless capsule endoscope. The images are in 24-bit PNG format, with 576x576 pixel resolution. The dataset is split into two equal parts, 600 images for training and 600 for evaluation. Each subset is composed of 300 images with apparent AD and 300 without any pathology. The training subset is annotated by human expert and contains 300 binary masks in JPEG format of the same 576x576 pixel resolution. White pixels in the masks correspond to lesion localization. Several examples from the training set are given in figure below, where the first row corresponds to images without pathology, the second one to images with several AD lesions in every image, and the last row contains masks that correspond to the pathology images from the second row. In the dataset each image contains up to 6 lesions and their distribution is shown in Fig.\ref{fig::hist} (left). As shown, the most images contain only 1 lesion. In addition, Fig.\ref{fig::hist} (right) shows distribution of AD lesion areas that reach the maximum of approximately 12,000 pixels with the median value of 1,648 pixels.
+The dataset consists of 1200 color images obtained with WCE. The images are in 24-bit PNG format, with 576 |times| 576 pixel resolution. The dataset is split into two equal parts, 600 images for training and 600 for evaluation. Each subset is composed of 300 images with apparent AD and 300 without any pathology. The training subset is annotated by human expert and contains 300 binary masks in JPEG format of the same 576 |times| 576 pixel resolution. White pixels in the masks correspond to lesion localization.
 
-The training dataset consists of 8 |times| 225-frame sequences of high resolution stereo camera images acquired from a `da Vinci Xi surgical system`_ during several different porcine procedures. Training sequences are provided with 2 Hz frame rate to avoid redundancy. Every video sequence consists of two stereo channels taken from left and right cameras and has a 1920 |times| 1080 pixel resolution in RGB format. The articulated parts of the robotic surgical instruments, such as a rigid shaft, an articulated wrist and claspers have been hand labelled in each frame. Furthermore, there are instrument type labels that categorize instruments in following categories: left/right prograsp forceps, monopolar curved scissors, large needle driver, and a miscellaneous category for any other surgical instruments.
+.. figure:: images/tbl.png
+    :scale: 30 %
 
-.. class:: center
+    First row corresponds to images without pathology, the second row to images with several AD lesions in every image, and the last row contains masks that correspond to the pathology images from the second row.
 
-    |gif1| |gif2|
-    |br|
-    |gif3| |gif4|
-    |br|
-    Original sequence (top left). Binary segmentation, 2-class (top right). Parts, 3-class (bottom left). Instruments, 7-class (bottom right)
+|
+|
+|
+
+.. figure:: images/hist.png
+    :scale: 45 %
+
+    Most images contain 1 lesion. Distribution of AD lesion areas reaches maximum of 12,000 pixels and has median 1,648 pixels.
+
 
 Method
 ------
-We evaluate 4 different deep architectures for segmentation: `U-Net`_, 2 modifications of `TernausNet`_, and a modification of `LinkNet`_. The output of the model is a pixel-by-pixel mask that shows the class of each pixel. Our winning submission to the MICCAI 2017 Endoscopic Vision Sub-Challenge uses slightly modified version of the original U-Net model.
-
-As an improvement over U-Net, we use similar networks with pre-trained encoders. TernausNet is a U-Net-like architecture that uses relatively simple pre-trained VGG11 or VGG16 networks as an encoder:
+We evaluate 4 different deep architectures for segmentation: `U-Net`_ (Ronneberger et al., 2015; Iglovikov et al., 2017a), 2 modifications of `TernausNet`_ (Iglovikov and Shvets, 2018), and `AlbuNet34`_, a modifications of `LinkNet`_ (Chaurasia and Culurciello, 2017; Shvets et al., 2018). As an improvement over standard `U-Net`_, we use similar networks with pre-trained encoders. `TernausNet`_ (Iglovikov and Shvets, 2018) is a U-Net-like architecture that uses relatively simple pre-trained VGG11 or VGG16 (Simonyan and Zisserman, 2014) networks as an encoder. VGG11 consists of seven convolutional layers, each followed by a ReLU activation function, and ve max polling operations, each reducing feature map by 2. All convolutional layers have 3 |times| 3 kernels. TernausNet16 has a similar structure and uses VGG16 network as an encoder
 
 .. figure:: images/TernausNet.png
-    :scale: 65 %
-
-|br|
-|br|
-
-LinkNet model uses an encoder based on a ResNet-type architecture. In this work, we use pre-trained ResNet34. The decoder of the network consists of several decoder blocks that are connected with the corresponding encoder block. Each decoder block includes 1 |times| 1 convolution operation that reduces the number of filters by 4, followed by batch normalization and transposed convolution to upsample the feature map:
-
-.. figure:: images/LinkNet34.png
     :scale: 72 %
 
 Training
@@ -82,24 +77,25 @@ Since image segmentation task can also be considered as a pixel classification p
 .. figure:: images/loss.gif
     :align: center
 
-As an output of a model, we obtain an image, where every pixel value corresponds to a probability of belonging to the area of interest or a class. The size of the output image matches the input image size. For binary segmentation, we use 0.3 as a threshold value (chosen using validation dataset) to binarize pixel probabilities. All pixel values below the specified threshold are set to 0, while all values above the threshold are set to 255 to produce final prediction mask. For multi-class segmentation we use similar procedure, but we assign different integer numbers for each class.
+As an output of a model, we obtain an image, in which each pixel value corresponds to a probability of belonging to the area of interest or a class. The size of the output image matches the input image size. For binary segmentation, we use 0.3 as a threshold value (chosen using validation dataset) to binarize pixel probabilities. All pixel values below the specied threshold are set to 0, while all values above the threshold are set to 255 to produce final prediction mask.
+
+Following the segmentation step, we perform postprocessing in order to nd the coordinates of angiodysplasia lesions in the image. In the postprocessing step we use OpenCV implementation of connected component labeling function `connectedComponentsWithStats`. This function returns the number of connected components, their sizes (areas), and centroid coordinates of the corresponding connected component. In our detector we use another threshold to neglect all clusters with the size smaller than 300 pixels. Therefore, in order to establish the presence of the lesions, the number of found components should be higher than 0, otherwise the image corresponds to a normal condition. Then, for localization of angiodysplasia lesions we return centroid coordinates of all connected components.
 
 Results
 -------
 
-For binary segmentation the best results is achieved by TernausNet-16 with IoU=0.836 and Dice=0.901. These are the best values reported in the literature up to now (`Pakhomov`_, `Garcia`_). Next, we consider multi-class segmentation of different parts of instruments. As before, the best results reveals TernausNet-16 with IoU=0.655 and Dice=0.760. For the multi-class instrument segmentation task the results look less optimistic. In this case the best model is TernausNet-11 with IoU=0.346 and Dice=0.459 for 7 class segmentation. Lower performance can be explained by the relatively small dataset size. There are 7 instrument classes and some of them appear just few times in the training dataset. Nevertheless, in the competition we achieved the best performance in this sub-category too.
+The quantitative comparison of our models' performance is presented in the Table 1. For the segmentation task the best results is achieved by `AlbuNet34`_ providing IoU = 0.754 and Dice = 0.850. When compared by the inference time, `AlbuNet34`_ is also the fastest model due to the light encoder. In the segmentation task this network takes around 20ms
 
-.. raw:: html
+.. figure:: images/train_angio.png
+    :scale: 60 %
 
-    <figure>
-        <img src="images/grid-1-41.png" width="60%" height="auto" align="center"/>
-        <figcaption>Comparison between several architectures for binary and multi-class segmentation.</figcaption>
-    </figure>
+    Prediction of our detector on the validation image. The left picture is original image, the central is ground truth mask, and the right is predicted mask. Green dots correspond to centroid coordinates that define localization of the angiodysplasia.
+
 |
 |
 |
 
-.. table:: Segmentation results per task. Intersection over Union, Dice coefficient and inference time, ms.
+.. table:: Table 1. Segmentation results per task. Intersection over Union, Dice coefficient and inference time, ms.
 
     ============= ========= ========= ==================
     Model         IOU, %    Dice, %   Inference time, ms
@@ -110,7 +106,7 @@ For binary segmentation the best results is achieved by TernausNet-16 with IoU=0
     AlbuNet34     75.35     84.98     30
     ============= ========= ========= ==================
 
-Pre-trained weights for all model of all segmentation tasks can be found at `google drive`_
+Pre-trained weights for all model of all segmentation tasks can be found on `google drive`_
 
 Dependencies
 ------------
@@ -122,54 +118,38 @@ Dependencies
 * opencv-python 3.3.0.10
 * tqdm 4.19.4
 
-To install all these dependencies you can run
-::
-    pip install -r requirements.txt
+These dependencies can be installed by running::
 
+    pip install -r requirements.txt
 
 
 How to run
 ----------
-
-The dataset is organized in the folloing way:
-
+The dataset is organized in the folloing way::
 ::
 
     ├── data
-    │   ├── cropped_train
-    │   ├── models
     │   ├── test
-    │   │   ├── instrument_dataset_1
-    │   │   │   ├── left_frames
-    │   │   │   └── right_frames
-    |   |   .......................
     │   └── train
-    │       ├── instrument_dataset_1
-    │       │   ├── ground_truth
-    │       │   │   ├── Left_Prograsp_Forceps_labels
-    │       │   │   ├── Maryland_Bipolar_Forceps_labels
-    │       │   │   ├── Other_labels
-    │       │   │   └── Right_Prograsp_Forceps_labels
-    │       │   ├── left_frames
-    │       │   └── right_frames
+    │       ├── angyodysplasia
+    │       │   ├── images
+    │       │   └── masks
+    │       └── normal
+    │           ├── images
+    │           └── masks
     │       .......................
 
 The training dataset contains only 8 videos with 255 frames each. Inside each video all frames are correlated, so, for 4-fold cross validation of our experiments, we split data using this dependance i.e utilize whole video for the validation. In such a case, we try to make every fold to contain more or less equal number of instruments. The test dataset consists of 8x75-frame sequences containing footage sampled immediately after each training sequence and 2 full 300-frame sequences, sampled at the same rate as the training set. Under the terms of the challenge, participants should exclude the corresponding training set when evaluating on one of the 75-frame sequences.
 
 1. Preprocessing
-~~~~~~~~~~~~~~~~~~~~~~
+
 As a preprocessing step we cropped black unindormative border from all frames with a file ``prepare_data.py`` that creates folder ``data/cropped_train.py`` with masks and images of the smaller size that are used for training. Then, to split the dataset for 4-fold cross-validation one can use the file: ``prepare_train_val``.
 
 
 2. Training
-~~~~~~~~~~~~~~~~~~~~~~
-The main file that is used to train all models -  ``train.py``.
 
-Running ``python train.py --help`` will return set of all possible input parameters.
-
-To train all models we used the folloing bash script :
-
-::
+The main file that is used to train all models -  ``train.py``. Running ``python train.py --help`` will return set of all possible input parameters.
+To train all models we used the folloing bash script::
 
     #!/bin/bash
 
@@ -179,51 +159,40 @@ To train all models we used the folloing bash script :
        python train.py --device-ids 0,1,2,3 --batch-size 16 --fold $i --workers 12 --lr 0.00001 --n-epochs 20 --type binary --jaccard-weight 1
     done
 
+3. Mask generation.
 
-3. Mask generation
-~~~~~~~~~~~~~~~~~~~~~~
-The main file to generate masks is ``generate_masks.py``.
+The main file to generate masks is ``generate_masks.py``. Running ``python generate_masks.py --help`` will return set of all possible input parameters. Example::
 
-Running ``python generate_masks.py --help`` will return set of all possible input parameters.
-
-Example:
-::
     python generate_masks.py --output_path predictions/unet16/binary --model_type UNet16 --problem_type binary --model_path data/models/unet16_binary_20 --fold -1 --batch-size 4
 
-4. Evaluation
-~~~~~~~~~~~~~~~~~~~~~~
+4. Evaluation.
+
 The evaluation is different for a binary and multi-class segmentation:
 
 [a] In the case of binary segmentation it calculates jaccard (dice) per image / per video and then the predictions are avaraged.
 
-[b] In the case of multi-class segmentation it calculates jaccard (dice) for every class independently then avaraged them for each image and then for every video
-::
+[b] In the case of multi-class segmentation it calculates jaccard (dice) for every class independently then avaraged them for each image and then for every video::
 
     python evaluate.py --target_path predictions/unet16 --problem_type binary --train_path data/cropped_train
 
-5. Further Improvements
-~~~~~~~~~~~~~~~~~~~~~~
+5. Further Improvements.
 
 Our results can be improved further by few percentages using simple rules such as additional augmentation of train images and train the model for longer time. In addition, the cyclic learning rate or cosine annealing could be also applied. To do it one can use our pre-trained weights as initialization. To improve test prediction TTA technique could be used as well as averaging prediction from all folds.
 
+Demo Example
+------------
+You can start working with our models using the demonstration example: `Demo.ipynb`_
 
-6. Demo Example
-~~~~~~~~~~~~~~~~~~~~~~
-You can easily start working with our models using the demonstration example
-  `Demo.ipynb`_
-
-..  _`Demo.ipynb`: https://github.com/ternaus/robot-surgery-segmentation/blob/master/Demo.ipynb
+..  _`Demo.ipynb`: Demo.ipynb
 .. _`Alexander Rakhlin`: https://www.linkedin.com/in/alrakhlin/
 .. _`Alexey Shvets`: https://www.linkedin.com/in/shvetsiya/
 .. _`Vladimir Iglovikov`: https://www.linkedin.com/in/iglovikov/
 .. _`Alexandr A. Kalinin`: https://alxndrkalinin.github.io/
-.. _`MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localization`: https://endovissub2017-giana.grand-challenge.org/angiodysplasia-etisdb/
-.. _`da Vinci Xi surgical system`: https://intuitivesurgical.com/products/da-vinci-xi/
+.. _`MICCAI 2017 Endoscopic Vision SubChallenge Angiodysplasia Detection and Localization`: https://endovissub2017-giana.grand-challenge.org/angiodysplasia-etisdb/
 .. _`TernausNet`: https://arxiv.org/abs/1801.05746
 .. _`U-Net`: https://arxiv.org/abs/1505.04597
+.. _`AlbuNet34`: https://arxiv.org/abs/1803.01207
 .. _`LinkNet`: https://arxiv.org/abs/1707.03718
-.. _`Garcia`: https://arxiv.org/abs/1706.08126
-.. _`Pakhomov`: https://arxiv.org/abs/1703.08580
 .. _`google drive`: https://drive.google.com/open?id=13e0C4fAtJemjewYqxPtQHO6Xggk7lsKe
 
 .. |br| raw:: html
@@ -242,10 +211,6 @@ You can easily start working with our models using the demonstration example
 
    &microm
 
-.. |gif1| image:: images/gifs/dataset6/original.gif
-.. |gif2| image:: images/gifs/dataset6/binary.gif
-.. |gif3| image:: images/gifs/dataset6/parts.gif
-.. |gif4| image:: images/gifs/dataset6/types.gif
 .. |y| image:: images/y.gif
 .. |y_hat| image:: images/y_hat.gif
 .. |i| image:: images/i.gif
