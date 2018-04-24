@@ -32,7 +32,7 @@ Data
 ----
 The dataset consists of 1200 color images obtained with WCE. The images are in 24-bit PNG format, with 576 |times| 576 pixel resolution. The dataset is split into two equal parts, 600 images for training and 600 for evaluation. Each subset is composed of 300 images with apparent AD and 300 without any pathology. The training subset is annotated by human expert and contains 300 binary masks in JPEG format of the same 576 |times| 576 pixel resolution. White pixels in the masks correspond to lesion localization.
 
-.. figure:: images/tbl.png
+.. figure:: https://hsto.org/webt/nq/3v/wf/nq3vwfqtoutrzmnbzmrnyligwym.png
     :scale: 30 %
 
     First row corresponds to images without pathology, the second row to images with several AD lesions in every image, and the last row contains masks that correspond to the pathology images from the second row.
@@ -41,7 +41,7 @@ The dataset consists of 1200 color images obtained with WCE. The images are in 2
 |
 |
 
-.. figure:: images/hist.png
+.. figure:: https://habrastorage.org/webt/t3/p6/yy/t3p6yykecrvr9mim7fqgevodgu4.png
     :scale: 45 %
 
     Most images contain 1 lesion. Distribution of AD lesion areas reaches maximum of 12,000 pixels and has median 1,648 pixels.
