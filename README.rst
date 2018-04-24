@@ -1,8 +1,8 @@
 ===========================================
-MICCAI 2017 Robotic Instrument Segmentation
+MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localization
 ===========================================
 
-Here we present our wining solution and its improvement for `MICCAI 2017 Robotic Instrument Segmentation Sub-Challenge`_.
+Here we present our wining solution and its improvement for `MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localization`_.
 
 In this work, we describe our winning solution for MICCAI 2017 Endoscopic Vision Sub-Challenge: Robotic Instrument Segmentation and demonstrate further improvement over that result. Our approach is originally based on U-Net network architecture that we improved using state-of-the-art semantic segmentation neural networks known as LinkNet and TernausNet. Our results shows superior performance for a binary  as well as for multi-class robotic instrument segmentation. We believe that our methods can lay a good foundation for the tracking and pose estimation in the vicinity of surgical scenes.
 
@@ -10,7 +10,7 @@ In this work, we describe our winning solution for MICCAI 2017 Endoscopic Vision
 
 Team members
 ------------
-`Alexey Shvets`_, `Alexander Rakhlin`_, `Alexandr A. Kalinin`_, `Vladimir Iglovikov`_
+`Alexey Shvets`_, `Vladimir Iglovikov`_, `Alexander Rakhlin`_, `Alexandr A. Kalinin`_
 
 Citation
 ----------
@@ -215,7 +215,7 @@ You can easily start working with our models using the demonstration example
 .. _`Alexey Shvets`: https://www.linkedin.com/in/alexey-shvets-b0215263/
 .. _`Vladimir Iglovikov`: https://www.linkedin.com/in/iglovikov/
 .. _`Alexandr A. Kalinin`: https://alxndrkalinin.github.io/
-.. _`MICCAI 2017 Robotic Instrument Segmentation Sub-Challenge`: https://endovissub2017-roboticinstrumentsegmentation.grand-challenge.org/
+.. _`MICCAI 2017 Endoscopic Vision SubChallenge: Angiodysplasia Detection and Localization`: https://endovissub2017-roboticinstrumentsegmentation.grand-challenge.org/
 .. _`da Vinci Xi surgical system`: https://intuitivesurgical.com/products/da-vinci-xi/
 .. _`TernausNet`: https://arxiv.org/abs/1801.05746
 .. _`U-Net`: https://arxiv.org/abs/1505.04597
