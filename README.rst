@@ -67,14 +67,14 @@ We use Jaccard index (Intersection Over Union) as the evaluation metric. It can 
 
 Since an image consists of pixels, the expression can be adapted for discrete objects in the following way:
 
-.. figure:: images/jaccard.gif
+.. figure:: https://habrastorage.org/webt/_8/wc/j1/_8wcj1to6ahxfsmb8s3nrxumqjy.gif
     :align: center
 
 where |y| and |y_hat| are a binary value (label) and a predicted probability for the pixel |i|, respectively.
 
 Since image segmentation task can also be considered as a pixel classification problem, we additionally use common classification loss functions, denoted as H. For a binary segmentation problem H is a binary cross entropy, while for a multi-class segmentation problem H is a categorical cross entropy.
 
-.. figure:: images/loss.gif
+.. figure:: https://habrastorage.org/webt/tf/d0/kn/tfd0kn2l612do_wmlc6zp5rdgdw.gif
     :align: center
 
 As an output of a model, we obtain an image, in which each pixel value corresponds to a probability of belonging to the area of interest or a class. The size of the output image matches the input image size. For binary segmentation, we use 0.3 as a threshold value (chosen using validation dataset) to binarize pixel probabilities. All pixel values below the specied threshold are set to 0, while all values above the threshold are set to 255 to produce final prediction mask.
