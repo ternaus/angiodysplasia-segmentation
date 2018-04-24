@@ -209,6 +209,6 @@ You can start working with our models using the demonstration example: `Demo.ipy
 
    &microm
 
-.. |y| image:: images/y.gif
+.. |y| image:: https://hsto.org/webt/jm/sn/i0/jmsni0y8mao8vnaij8a4eyuoqmu.gif
 .. |y_hat| image:: https://hsto.org/webt/xf/j2/a4/xfj2a4obgqhdzneysar5_us5pgk.gif
 .. |i| image:: https://hsto.org/webt/87/cc/ca/87cccaz4gjp2lgyeip17utljvvi.gif
