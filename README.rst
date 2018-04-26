@@ -54,7 +54,7 @@ We evaluate 4 different deep architectures for segmentation: `U-Net`_ (Ronneberg
 .. figure:: https://hsto.org/webt/vz/ok/wt/vzokwtntgqe6lb-g2oyhzj0qcyo.png
     :scale: 72 %
 
-.. figure:: https://hsto.org/webt/_w/lu/m5/_wlum5dndsvzo1yyzed2abudl1u.png
+.. figure:: https://hsto.org/webt/vs/by/8y/vsby8yt4bj_6n3pqdqlf2tb8r9a.png
     :scale: 72 %
 
 Training
