@@ -15,10 +15,11 @@ Citation
 
 If you find this work useful for your publications, please consider citing::
 
-    @article{shvets2018angiodysplasia,
-    title={Angiodysplasia Detection and Localization Using Deep Convolutional Neural Networks},
-    author={Shvets, Alexey and Iglovikov, Vladimir and Rakhlin, Alexander and Kalinin, Alexandr A.},
-    journal={arXiv preprint arXiv:arXiv:1804.08024},
+    @inproceedings{shvets2018angiodysplasia,
+    title={Angiodysplasia Detection and Localization using Deep Convolutional Neural Networks},
+    author={Shvets, Alexey A and Iglovikov, Vladimir I and Rakhlin, Alexander and Kalinin, Alexandr A},
+    booktitle={2018 17th IEEE International Conference on Machine Learning and Applications (ICMLA)},
+    pages={612--617},
     year={2018}
     }
 
