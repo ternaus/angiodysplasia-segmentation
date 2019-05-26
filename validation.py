@@ -3,7 +3,7 @@ import utils
 from torch import nn
 
 
-def validation_binary(model: nn.Module, criterion, valid_loader):
+def validation_binary(model= nn.Module, criterion, valid_loader):
     model.eval()
     losses = []
 
